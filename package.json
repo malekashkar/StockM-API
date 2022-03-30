@@ -1,0 +1,24 @@
+{
+  "name": "electron-react-typescript",
+  "version": "1.0.0",
+  "description": "An Electron boilerplate including TypeScript, React, Jest and ESLint.",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "tsc && node dist"
+  },
+  "keywords": [],
+  "author": "Diego Fernandes <diego.schell.f@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@typegoose/typegoose": "^9.7.1",
+    "@types/express": "^4.17.13",
+    "@types/mongoose": "^5.11.97",
+    "@types/node-fetch": "^2.6.1",
+    "@types/qs": "^6.9.7",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.9",
+    "node-fetch": "^2.6.7",
+    "qs": "^6.10.3"
+  }
+}
