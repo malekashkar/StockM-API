@@ -14,5 +14,5 @@
     "emitDecoratorMetadata": true,
     "inlineSourceMap": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/**/*"]
 }

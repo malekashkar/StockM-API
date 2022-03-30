@@ -2,10 +2,10 @@ import { config as dotenv } from 'dotenv';
 import { Router } from 'express';
 import fetch from 'node-fetch';
 import qs from 'qs';
-import { Oauth2UserModel } from '../models/oauth2User';
-import { AccessTokenResponse } from '../types';
-import { FetchError } from '../util';
-import { getMember, getUser } from '../util/discord';
+import { Oauth2UserModel } from '../../models/oauth2User';
+import { AccessTokenResponse } from '../../types';
+import { FetchError } from '../../util';
+import { getMember, getUser } from '../../util/discord';
 
 dotenv();
 
@@ -23,9 +23,8 @@ export default async function () {
 
   router.get('/', (req, res) => {
     const { oauthToken } = req.cookies;
-    if (oauthToken) {
-      return res.redirect('/dashboard');
-    }
+    if (oauthToken) return res.redirect('/');
+    
     return res.redirect(
       `https://discord.com/api/oauth2/authorize?client_id=${OAUTH2_CLIENT_ID}&redirect_uri=${encodeURIComponent(
         `${OAUTH2_BASE_URL}/redirect`
@@ -39,10 +38,9 @@ export default async function () {
   });
 
   router.get('/@me', async (req, res) => {
-    if (!req.cookies.oauthToken) {
+    if (!req.cookies.oauthToken) 
       return res.status(401).json({ code: 401, message: 'Unauthorized' });
-    }
-
+    
     try {
       const oauth2User = await Oauth2UserModel.findOne({
         'tokenDetails.accessToken': req.cookies.oauthToken,
@@ -117,7 +115,7 @@ export default async function () {
           oauth2User.serializeAccessTokenResponse(tokenExchangeResponseJson);
           await oauth2User.save();
           res.cookie('oauthToken', tokenExchangeResponseJson.access_token);
-          return res.redirect('/dashboard');
+          return res.redirect('/');
         } catch (err) {
           if (err instanceof FetchError) {
             console.error(err.message, await err.response.text());
@@ -133,7 +131,7 @@ export default async function () {
         return res.redirect('/api/auth');
       }
     }
-    return res.redirect('/dashboard');
+    return res.redirect('/');
   });
 
   return router;
